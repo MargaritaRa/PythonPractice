@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- when we inhert the template it will change depending on the page we are in -->
+        <title>{% block title %}Default Value{% endblock %}</title>
+    </head>
+    <body>
+        <p>This will always be here.</p>
+        {% block content %}{% endblock %}
+    </body>
+</html>
