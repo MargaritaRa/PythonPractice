@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>flask app</title>
+    </head>
+    <body>
+        <h1>Hello world</h1>
+        <p>{{ myvalue }}</p>
+        <p>{{ myresult }}</p>
+        <p>{{ mylist }}</p>
+        <!-- this is for a jinja2 for loop -->
+         <!-- to get this to work I added Better Jinja2 extension -->
+        <ul>
+            {% for item in mylist %}
+                {% if item == 30 %}
+                    <li style="color: aqua;">{{ item }}</li>
+                {% else %}
+                    <li>{{ item }}</li> 
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <ul>
+            {% for item in mylist %}
+                <li {% if item == 30 %}style="color: red;" {% endif %}>{{ item }}</li>
+            {% endfor %}
+        </ul>
+        
+    </body>
+</html>

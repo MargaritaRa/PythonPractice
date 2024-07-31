@@ -1,37 +1,14 @@
-from flask import Flask, request, make_response
+from flask import Flask, render_template
 # how to create the application:
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates' )
 
 
 @app.route('/')
 def index():
-    return "<h1>Hello World</h1>"
-
-
-@app.route('/hello')
-def hello():
-      response = make_response("hello world")
-      response.status_code = 202
-      response.headers['content-type'] = "text/plain"
-      return response
-
-@app.route('/greet/<name>')
-def greet(name):
-     return f"Hello {name}"
-# dinamic url, url processers
-@app.route('/add/<int:number1>/<int:number2>')
-def add(number1, number2):
-     return f'{number1} + {number2} = {number1 + number2}'
-
-@app.route('/handle_url_params')
-def handle_params():
-     if 'greeting' in request.args.keys() and 'name' in request.args.keys():
-        greeting = request.args['greeting']
-        name = request.args.get('name')
-        return f'{greeting}, {name}'
-     else:
-          return "some parameters are missing"
-
+    myvalue = 'NeuralNine'
+    myresult = 10 + 20
+    mylist = [10, 20, 30, 40, 50]
+    return render_template('index.html', myvalue=myvalue, myresult=myresult, mylist = mylist)
 
 
 if __name__ == '__main__':
