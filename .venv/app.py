@@ -1,34 +1,19 @@
-from flask import Flask, render_template, redirect,url_for
+from flask import Flask, render_template, request
 app = Flask(__name__, template_folder='templates' )
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    myvalue = 'NeuralNine'
-    myresult = 10 + 20
-    mylist = [10, 20, 30, 40, 50]
-    return render_template('index.html', myvalue=myvalue, myresult=myresult, mylist = mylist)
+    if request.method == 'GET':
+        return render_template('index.html')
+    elif request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-@app.route('/other')
-def other():
-    some_text = 'Hello World'
-    return render_template('other.html', some_text=some_text)
+        if username == 'neuralnine' and password == 'password':
+            return 'Success'
+        else:
+            return 'Failure'
 
-@app.route('/redirect_endpoint')
-def redirect_endpoint():
-    return redirect(url_for('other'))
-
-@app.template_filter('reverse_string')
-def reverse_string(s):
-    # this is how you reverse a string in python
-    return s[::-1]
-
-@app.template_filter('repeat')
-def repeat(s, times=2):
-    return s * times
-
-@app.template_filter('aleternate_case')
-def alternate_case(s):
-    return''.join([c.upper() if i % 2 == 0 else c.lower() for i, c in enumerate(s)])
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5555, debug=True)

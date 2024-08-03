@@ -2,25 +2,10 @@
 {% block title %}Index Page{% endblock %}
 
 {% block content %}
-        <h1>Hello world</h1>
-        <p>{{ myvalue }}</p>
-        <p>{{ myresult }}</p>
-        <p>{{ mylist }}</p>
-        <!-- this is for a jinja2 for loop -->
-         <!-- to get this to work I added Better Jinja2 extension -->
-        <ul>
-            {% for item in mylist %}
-                {% if item == 30 %}
-                    <li style="color: aqua;">{{ item }}</li>
-                {% else %}
-                    <li>{{ item }}</li> 
-                {% endif %}
-            {% endfor %}
-        </ul>
-        <ul>
-            {% for item in mylist %}
-                <li {% if item == 30 %}style="color: red;" {% endif %}>{{ item }}</li>
-            {% endfor %}
-        </ul>
-        <a href="{{ url_for('other')}}">Other</a>
+    <h1>Hello world</h1>
+   <form method="POST" action="{{url_for('index') }}">
+        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="password" placeholder="Password">
+        <input type="submit" value="Login">
+   </form>
 {% endblock %}
