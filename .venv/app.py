@@ -1,3 +1,4 @@
+import pandas as pd
 from flask import Flask, render_template, request
 app = Flask(__name__, template_folder='templates' )
 
@@ -17,7 +18,18 @@ def index():
 
 @app.route('/file_upload', methods = ["POST"])
 def file_upload():
-    return ""
+    # get the file
+    file = request.files['file']
+
+    # look at the content type of that file and know what to do with it
+    if file.content_type == 'text/plain':
+        # read the content of the file and decode it (since it's a binary string) 
+        return file.read().decode()
+    
+    elif file.content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or file.content_type == "application/vnd.ms-excel" :
+        #  data frame is = to pandas read excel
+        df = pd.read_excel(file)
+        return df.to_html()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5555, debug=True)
