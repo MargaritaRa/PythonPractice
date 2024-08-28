@@ -1,5 +1,8 @@
+import os
+# for unique ids
+import uuid
 import pandas as pd
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response, send_from_directory
 app = Flask(__name__, template_folder='templates' )
 
 
@@ -30,6 +33,47 @@ def file_upload():
         #  data frame is = to pandas read excel
         df = pd.read_excel(file)
         return df.to_html()
+    
+# return a file for download
+
+@app.route('/convert_csv', methods = ["POST"])
+def convert_csv():
+    file = request.files['file']
+
+    df = pd.read_excel(file)
+
+    response = Response(
+        df.to_csv(),
+        # specifiy the type
+        mimetype= 'text/csv',
+        # specify the header
+        headers={
+            'Content - Disposition': 'attachment; filename=result.csv'
+        }
+    )
+    return response
+
+
+@app.route('/convert_csv_two', methods=['POST'])
+def convert_csv_two():
+    file = request.files['file']
+    df = pd.read_excel(file)
+
+    if not os.path.exists('downloads'):
+        os.makedirs('downloads')
+
+    filename = f'{uuid.uuid4()}.csv'
+    filepath = os.path.join('downloads', filename)
+    df.to_csv(filepath, index=False)
+
+    return render_template('download.html', filename=filename)
+
+# Corrected the directory name and filename handling
+@app.route('/download/<filename>')
+def download(filename):
+    return send_from_directory('downloads', filename, as_attachment=True, download_name='result.csv')
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5555, debug=True)
