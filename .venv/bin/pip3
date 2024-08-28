@@ -1,4 +1,4 @@
-#!/Volumes/MAGY_FLASH/firstapp/.venv/bin/python3
+#!/Volumes/MAGY_FLASH/development/python/PythonPractice/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
